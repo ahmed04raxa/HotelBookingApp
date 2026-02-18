@@ -1,5 +1,5 @@
+import 'package:bookingapp/domain/constants/app_routes.dart';
 import 'package:bookingapp/firebase_options.dart';
-import 'package:bookingapp/repository/screens/home/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +19,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: HomeScreen(),
+      // home: HomeScreen(),
+      initialRoute: AppRoutes.homeScreen,
+      routes: AppRoutes.getRoutes(),
     );
   }
 }
