@@ -1,3 +1,4 @@
+import 'package:bookingapp/repository/screens/bottonnavigation/bottom_navigation_screen.dart';
 import 'package:bookingapp/repository/screens/home/detail_screen.dart';
 import 'package:bookingapp/repository/screens/home/home_screen.dart';
 import 'package:bookingapp/repository/screens/login/login_screen.dart';
@@ -11,6 +12,7 @@ class AppRoutes {
   static const String detailScreen = "/detailScreen";
   static const String signupScreen = "/signupScreen";
   static const String loginScreen = "/loginScreen";
+  static const String bottomNavigationScreen = "/bottomNavigationScreen";
 
   static Map<String, Widget Function(BuildContext)> getRoutes() => {
     splashScreen: (context) => SplashScreen(),
@@ -18,5 +20,6 @@ class AppRoutes {
     detailScreen: (context) => DetailScreen(),
     signupScreen: (context) => SignupScreen(),
     loginScreen: (context) => LoginScreen(),
+    bottomNavigationScreen: (context) => BottomNavigationScreen(),
   };
 }

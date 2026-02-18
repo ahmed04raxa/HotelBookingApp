@@ -101,6 +101,9 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(height: 30),
             Center(
               child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, "/bottomNavigationScreen");
+                },
                 child: Container(
                   height: 60,
                   width: MediaQuery.of(context).size.width / 2,
@@ -110,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   child: Center(
                     child: Text(
-                      "Sign Up",
+                      "Login",
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,

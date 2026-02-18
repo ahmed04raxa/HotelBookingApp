@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       // home: HomeScreen(),
-      initialRoute: AppRoutes.signupScreen,
+      initialRoute: AppRoutes.splashScreen,
       routes: AppRoutes.getRoutes(),
     );
   }
