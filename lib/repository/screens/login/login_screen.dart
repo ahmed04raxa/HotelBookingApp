@@ -1,4 +1,5 @@
 import 'package:bookingapp/services/widget_support.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -9,6 +10,24 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  void login(String email, String password) async {
+    UserCredential userCredential;
+    try {
+      userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      Navigator.pushNamed(context, "/bottomNavigationScreen");
+    } on FirebaseAuthException catch (ex) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(ex.message ?? ex.code.toString())));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,6 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: TextField(
+                controller: emailController,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   prefixIcon: Icon(
@@ -74,6 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: TextField(
+                controller: passwordController,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   prefixIcon: Icon(
@@ -102,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Center(
               child: GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, "/bottomNavigationScreen");
+                  login(emailController.text, passwordController.text);
                 },
                 child: Container(
                   height: 60,

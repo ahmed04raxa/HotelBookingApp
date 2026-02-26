@@ -1,4 +1,6 @@
 import 'package:bookingapp/services/widget_support.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -9,6 +11,44 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  void signUp(String name, String email, String password) async {
+    if (name == "" || email == "" || password == "") {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.green,
+          content: Text('All Field Are Required'),
+        ),
+      );
+    } else {
+      UserCredential? userCredential;
+      try {
+        userCredential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password);
+        await FirebaseFirestore.instance
+            .collection("Users")
+            .doc(userCredential.user!.uid)
+            .set({
+              'name': name,
+              'email': email,
+              'password':
+                  password, // Password Firestore m save krna safe nhi hai
+            })
+            .then((val) => {Navigator.pushNamed(context, "/loginScreen")});
+      } on FirebaseAuthException catch (ex) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.green,
+            content: Text(ex.message ?? ex.code),
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,15 +85,15 @@ class _SignupScreenState extends State<SignupScreen> {
             Container(
               margin: EdgeInsets.only(left: 30, right: 30),
               decoration: BoxDecoration(
-                color: Color(0XFFececf8),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: TextField(
+                controller: nameController,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   prefixIcon: Icon(
                     Icons.person,
-                    color:  Color.fromARGB(255, 4, 104, 186),
+                    color: Color.fromARGB(255, 4, 104, 186),
                   ),
                   hintText: 'Enter Name',
                   hintStyle: AppWidget.normalTextStyle(18),
@@ -73,11 +113,12 @@ class _SignupScreenState extends State<SignupScreen> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: TextField(
+                controller: emailController,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   prefixIcon: Icon(
                     Icons.mail,
-                    color:  Color.fromARGB(255, 4, 104, 186),
+                    color: Color.fromARGB(255, 4, 104, 186),
                   ),
                   hintText: 'Enter Email',
                   hintStyle: AppWidget.normalTextStyle(18),
@@ -97,11 +138,12 @@ class _SignupScreenState extends State<SignupScreen> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: TextField(
+                controller: passwordController,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   prefixIcon: Icon(
                     Icons.password,
-                    color:  Color.fromARGB(255, 4, 104, 186),
+                    color: Color.fromARGB(255, 4, 104, 186),
                   ),
                   hintText: 'Enter Password',
                   hintStyle: AppWidget.normalTextStyle(18),
@@ -111,6 +153,13 @@ class _SignupScreenState extends State<SignupScreen> {
             SizedBox(height: 20),
             Center(
               child: GestureDetector(
+                onTap: () {
+                  signUp(
+                    nameController.text,
+                    emailController.text,
+                    passwordController.text,
+                  );
+                },
                 child: Container(
                   height: 60,
                   width: MediaQuery.of(context).size.width / 2,

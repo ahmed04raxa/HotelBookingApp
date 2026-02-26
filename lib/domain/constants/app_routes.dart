@@ -1,6 +1,8 @@
 import 'package:bookingapp/repository/screens/bottonnavigation/bottom_navigation_screen.dart';
 import 'package:bookingapp/repository/screens/home/detail_screen.dart';
 import 'package:bookingapp/repository/screens/home/home_screen.dart';
+import 'package:bookingapp/repository/screens/hotelowner/hotel_detail_screen.dart';
+import 'package:bookingapp/repository/screens/hotelowner/hotel_owner_home_screen.dart';
 import 'package:bookingapp/repository/screens/login/login_screen.dart';
 import 'package:bookingapp/repository/screens/signup/signup_screen.dart';
 import 'package:bookingapp/repository/screens/splash/splash_screen.dart';
@@ -9,17 +11,23 @@ import 'package:flutter/material.dart';
 class AppRoutes {
   static const String splashScreen = "/splashScreen";
   static const String homeScreen = "/homeScreen";
-  static const String detailScreen = "/detailScreen";
+  // static const String detailScreen = "/detailScreen";
   static const String signupScreen = "/signupScreen";
   static const String loginScreen = "/loginScreen";
   static const String bottomNavigationScreen = "/bottomNavigationScreen";
+  static const String hotelDetailScreen = "/hotelDetailScreen";
+  static const String hotelOwnerHomeScreen = "/hotelOwnerHomeScreen";
 
   static Map<String, Widget Function(BuildContext)> getRoutes() => {
     splashScreen: (context) => SplashScreen(),
     homeScreen: (context) => HomeScreen(),
-    detailScreen: (context) => DetailScreen(),
+    // detailScreen: (context) => DetailScreen(
+    //   name: ,
+    // ),
     signupScreen: (context) => SignupScreen(),
     loginScreen: (context) => LoginScreen(),
     bottomNavigationScreen: (context) => BottomNavigationScreen(),
+    hotelDetailScreen: (context) => HotelDetailScreen(),
+    hotelOwnerHomeScreen : (context)=>HotelOwnerHomeScreen()
   };
 }
